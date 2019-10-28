@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:uniface:applic:services:CSYV1000" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="urn:uniface:applic:services:CSYV1000" name="CSYV1000" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types />
+    <wsdl:message name="EXTERNALRequest">
+        <wsdl:part name="REQUEST" type="s:string" />
+        <wsdl:part name="REQUESTDATA" type="s:string" />
+    </wsdl:message>
+    <wsdl:message name="LOGOFFRequest">
+        <wsdl:part name="REQUEST" type="s:string" />
+    </wsdl:message>
+    <wsdl:message name="LOGONRequest">
+        <wsdl:part name="REQUEST" type="s:string" />
+    </wsdl:message>
+    <wsdl:message name="EXTERNALResponse">
+        <wsdl:part name="return" type="s:int" />
+        <wsdl:part name="RESPONSE" type="s:string" />
+        <wsdl:part name="RESPONSEDATA" type="s:string" />
+        <wsdl:part name="RESPONSEERROR" type="s:string" />
+    </wsdl:message>
+    <wsdl:message name="LOGOFFResponse">
+        <wsdl:part name="return" type="s:int" />
+        <wsdl:part name="RESPONSE" type="s:string" />
+        <wsdl:part name="RESPONSEERROR" type="s:string" />
+    </wsdl:message>
+    <wsdl:message name="LOGONResponse">
+        <wsdl:part name="return" type="s:int" />
+        <wsdl:part name="RESPONSE" type="s:string" />
+        <wsdl:part name="RESPONSEERROR" type="s:string" />
+    </wsdl:message>
+    <wsdl:portType name="CSYV1000PortType">
+        <wsdl:operation name="EXTERNAL" parameterOrder="REQUEST REQUESTDATA RESPONSE RESPONSEDATA RESPONSEERROR">
+            <wsdl:input message="tns:EXTERNALRequest" />
+            <wsdl:output message="tns:EXTERNALResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="LOGOFF" parameterOrder="REQUEST RESPONSE RESPONSEERROR">
+            <wsdl:input message="tns:LOGOFFRequest" />
+            <wsdl:output message="tns:LOGOFFResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="LOGON" parameterOrder="REQUEST RESPONSE RESPONSEERROR">
+            <wsdl:input message="tns:LOGONRequest" />
+            <wsdl:output message="tns:LOGONResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CSYV1000Binding" type="tns:CSYV1000PortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+        <wsdl:operation name="EXTERNAL">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="LOGOFF">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="LOGON">
+            <soap:operation soapAction="" />
+            <wsdl:input>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="encoded" namespace="urn:uniface:applic:services:CSYV1000" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CSYV1000Service">
+        <wsdl:port name="CSYV1000" binding="tns:CSYV1000Binding">
+            <soap:address location="http://localhost/pathway/environment.pathway" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
+
+
