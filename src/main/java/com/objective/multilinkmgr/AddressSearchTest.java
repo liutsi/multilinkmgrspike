@@ -15,10 +15,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class WsdlTest {
+public class AddressSearchTest {
     public static void main(String[] args) {
         System.out.println("----------------------start at " + new Date() + "----------------------");
-        WsdlTest wsdlTest = new WsdlTest();
+        AddressSearchTest wsdlTest = new AddressSearchTest();
         wsdlTest.queryApplication();
     }
 
@@ -51,11 +51,9 @@ public class WsdlTest {
             String sessionId = "07088C63-BEB7-48FA-969D-68B4A9A861B4"; //pairs.get("sessionId");
             System.out.println("logon.ret.sessionId:" + sessionId);
 
-            List<String> classes = getClassType(stub, sessionId);
+            List<String> classes = getAddressTemplates(stub, sessionId);
 
-            for (String classId : classes) {
-                findApplications(stub, sessionId, classId);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +78,7 @@ public class WsdlTest {
         return ret;
     }
 
-    private List<String> getClassType(CSYV1000PortType stub, String sessionId)
+    private List<String> getAddressTemplates(CSYV1000PortType stub, String sessionId)
                     throws IOException, SAXException, ParserConfigurationException {
         System.out.println("-------------------------------begin getClasses-------------------------");
 
@@ -88,14 +86,13 @@ public class WsdlTest {
                         + "    <request>\n"
                         + "        <service>CIFV5010</service>\n"
                         + "        <sessionId>" + sessionId + "</sessionId>\n"
-                        + "        <method>ClassType</method>"
+                        + "        <method>AddressTemplate</method>"
                         + "    </request>\n"
                         + "</root>\n"
                         + "\n";
 
         String reqDate = "<root>\n"
                         + "    <request>\n"
-                        + "        <applicationcode>LLC</applicationcode>\n"
                         + "    </request>\n"
                         + "</root>\n";
 
