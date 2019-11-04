@@ -53,7 +53,7 @@ public class AddressSearchTest {
 
             List<String> classes = getAddressTemplates(stub, sessionId);
 
-            doNameSearch(stub, sessionId, "6", "KENSINGTON");
+            doAddressSearch(stub, sessionId, "6", "KENSINGTON");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,16 +115,16 @@ public class AddressSearchTest {
         return handler.getClasses();
     }
 
-    private List<String> doNameSearch(CSYV1000PortType stub, String sessionId, String templateId, String nameQueryStr)
+    private List<String> doAddressSearch(CSYV1000PortType stub, String sessionId, String templateId, String addressQueryKeyword)
                     throws RemoteException {
-        System.out.println("-------------------------------begin doNameSearch " + templateId + "," + nameQueryStr
+        System.out.println("-------------------------------begin doAddressSearch " + templateId + "," + addressQueryKeyword
                         + "-------------------------");
 
         String req = "<root>\n"
                         + "    <request>\n"
-                        + "        <service>CIFV5020</service>\n"
+                        + "        <service>CIFV5150</service>\n"
                         + "        <sessionId>" + sessionId + "</sessionId>\n"
-                        + "        <method>NameSearch</method>\n"
+                        + "        <method>AddressSearch</method>\n"
                         + "    </request>\n"
                         + "</root>";
 
@@ -133,20 +133,21 @@ public class AddressSearchTest {
                         + "        <retrievecount>10</retrievecount>\n"
                         + "        <responsecount>10</responsecount>\n"
                         + "        <search>\n"
-                        + "            <nameid></nameid>\n"
-                        + "            <nametype></nametype>\n"
-                        + "            <name>*"+nameQueryStr+"*</name>\n"
-                        + "            <givenname></givenname>\n"
-                        + "            <phonetic>false</phonetic>\n"
-                        + "            <legalname></legalname>\n"
-                        + "            <addrqual></addrqual>\n"
-                        + "            <roletypea>LAP</roletypea>\n"
-                        + "            <roletypen>1</roletypen>\n"
+                        + "            <addressid></addressid>\n"
+                        + "            <templateid>"+templateId+"</templateid>\n"
+                        + "            <prefix1></prefix1>\n"
+                        + "            <prefix2></prefix2>\n"
+                        + "            <prefix3></prefix3>\n"
+                        + "            <house></house>\n"
+                        + "            <street>*"+addressQueryKeyword+"*</street>\n"
+                        + "            <suburb></suburb>\n"
+                        + "            <towncity></towncity>\n"
+                        + "            <state></state>\n"
+                        + "            <postcode></postcode>\n"
+                        + "            <country></country>\n"
                         + "        </search>\n"
                         + "    </request>\n"
-                        + "</root>\n"
-                        + "\n"
-                        + "\n";
+                        + "</root>\n";
 
         StringHolder resp = new StringHolder();
         StringHolder respData = new StringHolder();
