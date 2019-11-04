@@ -22,7 +22,7 @@ public class CSYV1000ServiceLocator extends org.apache.axis.client.Service imple
     }
 
     // Use to get a proxy class for CSYV1000
-    private java.lang.String CSYV1000_address = "http://localhost/pathway/environment.pathway";
+    private java.lang.String CSYV1000_address = "http://localhost/pathway/demo.pathway";
 
     public java.lang.String getCSYV1000Address() {
         return CSYV1000_address;

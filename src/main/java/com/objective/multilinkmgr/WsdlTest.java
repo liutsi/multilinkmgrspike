@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class WsdlTest {
     public static void main(String[] args) {
-        System.out.println("----------------------start at " + new Date() + "----------------------");
+        System.out.println("----------------------start WsdlTest at " + new Date() + "----------------------");
         WsdlTest wsdlTest = new WsdlTest();
         wsdlTest.queryApplication();
     }

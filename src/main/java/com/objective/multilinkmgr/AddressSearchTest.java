@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class AddressSearchTest {
     public static void main(String[] args) {
-        System.out.println("----------------------start at " + new Date() + "----------------------");
+        System.out.println("----------------------start AddressSearchTest at " + new Date() + "----------------------");
         AddressSearchTest wsdlTest = new AddressSearchTest();
         wsdlTest.queryApplication();
     }
@@ -80,7 +80,7 @@ public class AddressSearchTest {
 
     private List<String> getAddressTemplates(CSYV1000PortType stub, String sessionId)
                     throws IOException, SAXException, ParserConfigurationException {
-        System.out.println("-------------------------------begin getClasses-------------------------");
+        System.out.println("-------------------------------begin getAddressTemplates-------------------------");
 
         String req = "<root>\n"
                         + "    <request>\n"
