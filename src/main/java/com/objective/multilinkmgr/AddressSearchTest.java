@@ -53,7 +53,7 @@ public class AddressSearchTest {
 
             List<String> classes = getAddressTemplates(stub, sessionId);
 
-
+            doNameSearch(stub, sessionId, "6", "KENSINGTON");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class AddressSearchTest {
 
         String req = "<root>\n"
                         + "    <request>\n"
-                        + "        <service>CIFV5010</service>\n"
+                        + "        <service>CIFV5100</service>\n"
                         + "        <sessionId>" + sessionId + "</sessionId>\n"
                         + "        <method>AddressTemplate</method>"
                         + "    </request>\n"
@@ -115,37 +115,38 @@ public class AddressSearchTest {
         return handler.getClasses();
     }
 
-    private List<String> findApplications(CSYV1000PortType stub, String sessionId, String classId)
+    private List<String> doNameSearch(CSYV1000PortType stub, String sessionId, String templateId, String nameQueryStr)
                     throws RemoteException {
-        System.out.println("-------------------------------begin findApplications " + classId + "-------------------------");
+        System.out.println("-------------------------------begin doNameSearch " + templateId + "," + nameQueryStr
+                        + "-------------------------");
 
         String req = "<root>\n"
                         + "    <request>\n"
-                        + "        <service>CIFV5550</service>\n"
+                        + "        <service>CIFV5020</service>\n"
                         + "        <sessionId>" + sessionId + "</sessionId>\n"
-                        + "        <method>FindApplications</method>\n"
+                        + "        <method>NameSearch</method>\n"
                         + "    </request>\n"
                         + "</root>";
 
         String reqDate = "<root>\n"
-                        + " <request>\n"
-                        + "  <retrieveCount>10</retrieveCount>\n"
-                        + "  <responseCount>10</responseCount>\n"
-                        + "  <applicationClassId>" + classId + "</applicationClassId>\n"
-                        + "  <fromApplicationId></fromApplicationId>\n"
-                        + "  <toApplicationId></toApplicationId>\n"
-                        + "  <applicationTypeId></applicationTypeId>\n"
-                        + "  <applicationStatusId></applicationStatusId>\n"
-                        + "  <fromApplicationNumber></fromApplicationNumber>\n"
-                        + "  <toApplicationNumber></toApplicationNumber>\n"
-                        + "  <fromApplicationYear></fromApplicationYear>\n"
-                        + "  <toApplicationYear></toApplicationYear>\n"
-                        + "  <fromLodgementDate></fromLodgementDate>\n"
-                        + "  <toLodgementDate></toLodgementDate>\n"
-                        + "  <locationSummaryRequired></locationSummaryRequired>\n"
-                        + "  <applicationSummaryRequired></applicationSummaryRequired>\n"
-                        + " </request>\n"
-                        + "</root>\n";
+                        + "    <request>\n"
+                        + "        <retrievecount>10</retrievecount>\n"
+                        + "        <responsecount>10</responsecount>\n"
+                        + "        <search>\n"
+                        + "            <nameid></nameid>\n"
+                        + "            <nametype></nametype>\n"
+                        + "            <name>*"+nameQueryStr+"*</name>\n"
+                        + "            <givenname></givenname>\n"
+                        + "            <phonetic>false</phonetic>\n"
+                        + "            <legalname></legalname>\n"
+                        + "            <addrqual></addrqual>\n"
+                        + "            <roletypea>LAP</roletypea>\n"
+                        + "            <roletypen>1</roletypen>\n"
+                        + "        </search>\n"
+                        + "    </request>\n"
+                        + "</root>\n"
+                        + "\n"
+                        + "\n";
 
         StringHolder resp = new StringHolder();
         StringHolder respData = new StringHolder();
