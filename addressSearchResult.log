@@ -1,0 +1,305 @@
+----------------------start AddressSearchTest at Wed Nov 06 13:54:44 AEDT 2019----------------------
+retInt: 0
+faultLogon: null
+logon.ret.sessionId:07088C63-BEB7-48FA-969D-68B4A9A861B4
+-------------------------------begin getAddressTemplates-------------------------
+req:<root>
+    <request>
+        <service>CIFV5100</service>
+        <sessionId>07088C63-BEB7-48FA-969D-68B4A9A861B4</sessionId>
+        <method>AddressTemplate</method>    </request>
+</root>
+
+
+reqDate:<root>
+    <request>
+    </request>
+</root>
+
+retInt:0
+resp:<root>
+ <response>
+  <status>1</status>
+  <error></error>
+  <warning></warning>
+ </response>
+</root>
+
+respData:<root>
+ <response>
+  <templates>
+   <template>
+    <templateid>6</templateid>
+    <templatecode>1</templatecode>
+    <templatedescr>Australian Residential Address</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+   <template>
+    <templateid>22</templateid>
+    <templatecode>2</templatecode>
+    <templatedescr>PO Box Address Format</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+   <template>
+    <templateid>18</templateid>
+    <templatecode>3</templatecode>
+    <templatedescr>Free Format Address</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+   <template>
+    <templateid>23</templateid>
+    <templatecode>4</templatecode>
+    <templatedescr>NZ Format</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+   <template>
+    <templateid>24</templateid>
+    <templatecode>5</templatecode>
+    <templatedescr>US Format</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+   <template>
+    <templateid>25</templateid>
+    <templatecode>6</templatecode>
+    <templatedescr>Unknown Address Template</templatedescr>
+    <templateactive>true</templateactive>
+   </template>
+  </templates>
+ </response>
+</root>
+
+fault:null
+Start Element :root,
+Setting: root: 
+ 
+Start Element :response,
+Setting: response: 
+  
+Start Element :templates,
+Setting: templates: 
+   
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 6
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 1
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: Australian Residential Address
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 22
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 2
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: PO Box Address Format
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 18
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 3
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: Free Format Address
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 23
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 4
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: NZ Format
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 24
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 5
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: US Format
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+Start Element :template,
+Setting: template: 
+    
+Start Element :templateid,
+Setting: templateid: 25
+End Element :templateid,
+Start Element :templatecode,
+Setting: templatecode: 6
+End Element :templatecode,
+Start Element :templatedescr,
+Setting: templatedescr: Unknown Address Template
+End Element :templatedescr,
+Start Element :templateactive,
+Setting: templateactive: true
+End Element :templateactive,
+End Element :template,
+End Element :templates,
+End Element :response,
+End Element :root,
+-------------------------------begin doAddressSearch 6,KENSINGTON-------------------------
+req:<root>
+    <request>
+        <service>CIFV5150</service>
+        <sessionId>07088C63-BEB7-48FA-969D-68B4A9A861B4</sessionId>
+        <method>AddressSearch</method>
+    </request>
+</root>
+reqDate:<root>
+    <request>
+        <retrievecount>20</retrievecount>
+        <responsecount>20</responsecount>
+        <search>
+            <addressid></addressid>
+            <templateid>6</templateid>
+            <prefix1></prefix1>
+            <prefix2></prefix2>
+            <prefix3></prefix3>
+            <house></house>
+            <street></street>
+            <suburb></suburb>
+            <towncity></towncity>
+            <state></state>
+            <postcode></postcode>
+            <country></country>
+        </search>
+    </request>
+</root>
+
+retInt:0
+resp:<root>
+ <response>
+  <status>1</status>
+  <error></error>
+  <warning></warning>
+ </response>
+</root>
+
+respData:<root>
+ <response>
+  <count>20</count>
+  <more>true</more>
+  <result>
+   <addressid>753</addressid>
+   <address>Unit No 601C, Level 6, Tower C, Uptown 5, 5, Jalan SS21/39,, Damansara Uptown, 47400 Petaling Jaya, Kuala Lumpur, Malaysia</address>
+  </result>
+  <result>
+   <addressid>801</addressid>
+   <address>ADMINISTRATION OF NORFOLK ISALND</address>
+  </result>
+  <result>
+   <addressid>813</addressid>
+   <address>C/O Infor Brisbane</address>
+  </result>
+  <result>
+   <addressid>804</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>814</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>824</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>834</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>844</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>854</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>864</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>874</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>1024</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>1034</addressid>
+   <address>Unknown Address</address>
+  </result>
+  <result>
+   <addressid>747</addressid>
+   <address>1 Kensington Ave, PETONE</address>
+  </result>
+  <result>
+   <addressid>954</addressid>
+   <address>P/O BOX 3523, BRIGHTON SA</address>
+  </result>
+  <result>
+   <addressid>695</addressid>
+   <address>PO BOX 27, OLYMPIC DAM  SA</address>
+  </result>
+  <result>
+   <addressid>696</addressid>
+   <address>3651 West Swan Rd, CAVERSHAM  WA</address>
+  </result>
+  <result>
+   <addressid>742</addressid>
+   <address>6 Lawrence Cls, DARLINGTON  WA</address>
+  </result>
+  <result>
+   <addressid>698</addressid>
+   <address>23 Jervois Street, DIANELLA  WA</address>
+  </result>
+  <result>
+   <addressid>688</addressid>
+   <address>18C Malton Crt, DIANELLA  WA</address>
+  </result>
+ </response>
+</root>
+
+fault:null
