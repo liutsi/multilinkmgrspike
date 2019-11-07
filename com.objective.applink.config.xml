@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Applink>
+
+  <!--Parameters in the GlobalParams sections are used in two processes:
+  First they're used for ${token} replacement in the rest of the config file;
+  Programmatically they're available through the Objective.Applink.Config.ApplinkConfig.GetGlobalConfigValue() function -->
+  <GlobalParams>
+	
+	<!-- ACME -->
+	<Param name="Objective.Applink.Acme.Database">C:\acme\chrome\content\database</Param>
+	<Param name="Objective.Field.NameKey">tA238</Param>
+	<Param name="Objective.Field.NameFormatted">tA239</Param>
+	
+    <!-- Applink Connector params -->
+    <Param name="Objective.Applink.WSBase">https://theta.objectivedemo.com:443/applink-pathway/</Param>
+    <Param name="Objective.WebtalkBaseUrl">https://theta.objectivedemo.com:443/</Param>
+    <Param name="Objective.Applink.Debug.BypassSslErrors">true</Param>
+    <Param name="Objective.Applink.Debug.DoNotDeleteSourceFiles">true</Param>
+
+    <!-- Pathway Applink params -->
+    <Param name="Objective.Applink.Pathway.UseExistingSession">true</Param>
+    <Param name="Objective.Applink.Pathway.Database">Pathway_Demo</Param>
+
+    <Param name="Objective.Field.Pathway.PropKey">tA115</Param>
+    <!-- NDW added these property fields-->
+    <Param name="Objective.Field.Pathway.PropAddress">tA108</Param>
+    <Param name="Objective.Field.Pathway.PropLot">tA135</Param>
+
+    <Param name="Objective.Field.Pathway.AppKey">tA116</Param>
+    <Param name="Objective.Field.Pathway.LicKey">tA105</Param>
+    <!-- NAR ID -->
+    <Param name="Objective.Field.Pathway.NameKey">tA118</Param>
+    <!-- NDW added this field -->
+    <Param name="Objective.Field.Pathway.FormattedNARName">tA104</Param>
+    <Param name="Objective.Field.Pathway.FormattedNARAddress">tA144</Param>
+    <Param name="Objective.Field.Pathway.PathwayNARRoleType">tA142</Param>
+
+    <Param name="Objective.Field.Pathway.ReqKey">tA137</Param>
+    <Param name="Objective.Field.Pathway.ReqNum">tA138</Param>
+
+
+    <!-- NDW added animal id field and Street Suburb field-->
+    <Param name="Objective.Field.Pathway.AnimalId">tA141</Param>
+    <Param name="Objective.Field.Pathway.StreetSuburb">tA143</Param>
+
+	<!-- IPS Integration Fields -->
+	<Param name="Objective.Field.IPS.AttachmentKey">tA350</Param>
+	<Param name="Objective.Field.IPS.ContainerThumbnail">http://theta.objectivedemo.com/icons/factory/folder</Param>
+	
+	
+  </GlobalParams>
+
+
+  <!-- Plugins are referenced to by Steps in the Lookup section -->
+  <Plugins>
+
+	<!-- ACME -->
+	<Plugin name="NameSearch" assemblyName="Objective.Applink.Acme"
+			className="Objective.Applink.Acme.BuiltinSearch">
+			<!-- the name of the table we are going to query -->
+			<Query viewName="contacts">
+			  <!-- and the name of the database we're connecting to -->
+				<Connection>${Objective.Applink.Acme.Database}</Connection>
+				<!-- the Acme applink doesn't have any Criteria -->
+			</Query>
+		</Plugin>
+	
+    <Plugin name="Pathway.PropSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.Search">
+      <sourceApplication>LPA</sourceApplication>
+      <sourceEntity>LPAPROP</sourceEntity>
+      <KeyFieldName>TPKLPAPROP</KeyFieldName>
+      <Field name="PropKey" select="root/documentFields/documentField[documentFieldName='Property Key']/documentFieldValue/text()"/>
+      <Field name="PropAddress" select="root/documentFields/documentField[documentFieldName='Property Formatted Address']/documentFieldValue/text()"/>
+      <Field name="PropLot" select="root/documentFields/documentField[documentFieldName='Lot Description']/documentFieldValue/text()"/>
+    </Plugin>
+
+    <Plugin name="Pathway.AppSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchV0">
+      <sourceApplication>LAP</sourceApplication>
+      <sourceEntity>LAPAPPL</sourceEntity>
+    </Plugin>
+
+    <Plugin name="Pathway.LicSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchV0">
+      <sourceApplication>LLC</sourceApplication>
+      <sourceEntity>LAPAPPL</sourceEntity>
+    </Plugin>
+
+    <Plugin name="Pathway.NameSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchNAR">
+      <sourceApplication>CNA</sourceApplication>
+      <sourceEntity>CNAIDTY</sourceEntity>
+    </Plugin>
+
+    <Plugin name="Pathway.ReqSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchV0">
+      <sourceApplication>ACR</sourceApplication>
+      <sourceEntity>ACRREQU</sourceEntity>
+    </Plugin>
+
+    <Plugin name="Pathway.AnimalSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchV0">
+      <sourceApplication>LAN</sourceApplication>
+      <sourceEntity>LANANML</sourceEntity>
+    </Plugin>
+
+    <Plugin name="Pathway.StreetSuburbSearch" assemblyName="Objective.Applink.Pathway" className="Objective.Applink.Pathway.SearchV0">
+      <sourceApplication>LPA</sourceApplication>
+      <sourceEntity>LPASTSB</sourceEntity>
+    </Plugin>
+
+  </Plugins>
+
+  <Transport>
+    <ProtocolHandler protocol='oclpthwy'>
+      <Module name="license">
+        <Param name="module">LLC</Param>
+        <Param name="entity">LAPAPPL</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+      <Module name="application">
+        <Param name="module">LAP</Param>
+        <Param name="entity">LAPAPPL</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+      <Module name="property">
+        <Param name="module">LPA</Param>
+        <Param name="entity">LPAPROP</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+      <!--NDW added animal to the transport section -->
+      <Module name="animal">
+        <Param name="module">LAN</Param>
+        <Param name="entity">LANANML</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+      <!--NDW added street suburb to the transport section -->
+      <Module name="streetsuburb">
+        <Param name="module">LPA</Param>
+        <Param name="entity">LPASTSB</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+
+
+      <Module name="request">
+        <Param name="module">ACR</Param>
+        <Param name="entity">ACRREQU</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+        <Action name="create">
+          <Step sequence="1" className="Objective.Applink.Pathway.CreateRequest" assemblyName="Objective.Applink.Pathway">
+            <Result to="req Key"/>
+            <AdditionalData from="REQUNUM" to="req Num"/>
+          </Step>
+          <Step sequence="2" className="Objective.Applink.Transport.Step.UpdateMetadata">
+            <Map from="req Key" regex="[^/]+$" to="${Objective.Field.Pathway.ReqKey}"/>
+            <!-- add the Human readbale Request Number -->
+            <Map from="req Num" regex="[^/]+$" to="${Objective.Field.Pathway.ReqNum}"/>
+          </Step>
+        </Action>
+      </Module>
+
+
+      <Module name="name">
+        <Param name="module">CNA</Param>
+        <Param name="entity">CNAIDTY</Param>
+        <Action name="display">
+          <Step sequence="1" className="Objective.Applink.Pathway.DisplayEntity" assemblyName="Objective.Applink.Pathway"/>
+        </Action>
+      </Module>
+    </ProtocolHandler>
+  </Transport>
+
+
+  <!-- The Lookup section is used by the Connector's Validation DLL handler -->
+  <Lookup>
+	
+	
+	<!-- ACME -->
+	<FieldEvent callingField="${Objective.Field.NameKey},${Objective.Field.NameFormatted}"
+				navigatorEvent="ObjMVFieldEditClicked">
+
+      <!-- Only an Action with name "default" is currently processed by the Connector -->
+      <Action name="default">
+        
+				<Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+					<From>${Objective.Field.NameKey}</From>
+					<To>id</To>
+					<IsMultivalue>yes</IsMultivalue>
+				</Step>
+				<Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+					<From>${Objective.Field.NameFormatted}</From>
+					<To>name</To>
+					<IsMultivalue>yes</IsMultivalue>
+				</Step>
+				<Step sequence="3" className="Objective.Applink.Step.MultiLinkManager">
+					<Plugin reference="NameSearch" position="left"/>
+					<Field name="id" unique="yes" displayInList="yes">Name Key</Field>
+					<Field name="name" displayInList="yes">Formatted Name</Field>
+				</Step>
+				<Step sequence="4" className="Objective.Applink.Step.MapVarToField">
+					<From>id</From>
+					<To>${Objective.Field.NameKey}</To>
+					<IsMultivalue>yes</IsMultivalue>
+				</Step>
+				<Step sequence="5" className="Objective.Applink.Step.MapVarToField">
+					<From>name</From>
+					<To>${Objective.Field.NameFormatted}</To>
+					<IsMultivalue>yes</IsMultivalue>
+				</Step>
+      </Action>
+    </FieldEvent>
+	
+	
+    <!-- FieldEvent: callingField is mandatory. It must contain one or more
+    Field Object Ids. The Ids are to be comma-separated with no spaces in between.
+    
+    navigatorEvent is mandatory. Current available values for navigatorEvent:
+    
+    ObjInitialiseField;
+    ObjMVFieldEditClicked;
+    ObjFieldChanged.
+    
+    -->
+    <!-- NDW enabled property address and lot information in Register Pathway Documents -->
+    <FieldEvent callingField="${Objective.Field.Pathway.PropKey},${Objective.Field.Pathway.PropAddress},${Objective.Field.Pathway.PropLot}"
+          navigatorEvent="ObjMVFieldEditClicked" applicableTypes="duotA38">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PropKey}</From>
+          <To>PropKey</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PropAddress}</From>
+          <To>PropAddress</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		<!-- Stevet removed from demo
+        <Step sequence="3" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PropLot}</From>
+          <To>PropLot</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+		
+        <Step sequence="4" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.PropSearch" position="add" />
+          <Field name="PropKey" unique="yes" displayInList="yes">Property Key</Field>
+          <Field name="PropAddress" displayInList="yes">Property Address</Field>
+         <!-- <Field name="PropLot"      displayInList="yes">Property Lot</Field> -->
+        </Step>
+        <Step sequence="5" className="Objective.Applink.Step.MapVarToField">
+          <From>PropKey</From>
+          <To>${Objective.Field.Pathway.PropKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="6" className="Objective.Applink.Step.MapVarToField">
+          <From>PropAddress</From>
+          <To>${Objective.Field.Pathway.PropAddress}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+		<!-- Stevet removed from demo
+        <Step sequence="7" className="Objective.Applink.Step.MapVarToField">
+          <From>PropLot</From>
+          <To>${Objective.Field.Pathway.PropLot}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+      </Action>
+    </FieldEvent>
+
+    <!-- NDW enabled property address (NO lot) information in Register Pathway Files -->
+    <FieldEvent callingField="${Objective.Field.Pathway.PropKey},${Objective.Field.Pathway.PropAddress}"
+          navigatorEvent="ObjMVFieldEditClicked" applicableTypes="duotA1">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PropKey}</From>
+          <To>PropKey</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PropAddress}</From>
+          <To>PropAddress</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="4" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.PropSearch" position="add" />
+          <Field name="PropKey" unique="yes" displayInList="yes">Property Key</Field>
+          <Field name="PropAddress" displayInList="yes">Property Address</Field>
+        </Step>
+        <Step sequence="5" className="Objective.Applink.Step.MapVarToField">
+          <From>PropKey</From>
+          <To>${Objective.Field.Pathway.PropKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="6" className="Objective.Applink.Step.MapVarToField">
+          <From>PropAddress</From>
+          <To>${Objective.Field.Pathway.PropAddress}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+      </Action>
+    </FieldEvent>
+
+
+    <FieldEvent callingField="${Objective.Field.Pathway.AppKey},${Objective.Field.Pathway.AppDescription}"
+          navigatorEvent="ObjMVFieldEditClicked">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.AppKey}</From>
+          <To>TPKLAPAPPL</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <!--
+        <Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.AppDescription}</From>
+          <To>DESCR</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+        <Step sequence="3" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.AppSearch" position="add" />
+          <Field name="TPKLAPAPPL" unique="yes" displayInList="yes">Application Key</Field>
+          <!--
+          <Field name="DESCR" displayInList="yes">Application Description</Field>
+		  -->
+        </Step>
+        <Step sequence="4" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKLAPAPPL</From>
+          <To>${Objective.Field.Pathway.AppKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <!--
+        <Step sequence="5" className="Objective.Applink.Step.MapVarToField">
+          <From>DESCR</From>
+          <To>${Objective.Field.Pathway.AppDescription}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+      </Action>
+    </FieldEvent>
+
+    <FieldEvent callingField="${Objective.Field.Pathway.LicKey},${Objective.Field.Pathway.LicDescription}"
+          navigatorEvent="ObjMVFieldEditClicked">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.LicKey}</From>
+          <To>TPKLAPAPPL</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="10" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.LicSearch" position="add" />
+          <Field name="TPKLAPAPPL" unique="yes" displayInList="yes">License Key</Field>
+        </Step>
+        <Step sequence="20" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKLAPAPPL</From>
+          <To>${Objective.Field.Pathway.LicKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+      </Action>
+    </FieldEvent>
+
+    <!-- NDW add formatted name to NAR lookups -  pathway Documents-->
+
+    <FieldEvent callingField="${Objective.Field.Pathway.NameKey},${Objective.Field.Pathway.FormattedNARAddress},${Objective.Field.Pathway.FormattedNARName}"
+          navigatorEvent="ObjMVFieldEditClicked" applicableTypes="duotA38">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.NameKey}</From>
+          <To>TPKCNAIDTY</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		<!-- stevet remove from demo
+        <Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.FormattedNARAddress}</From>
+          <To>CNAIADD.FORMATADDR</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+        <Step sequence="3" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.FormattedNARName}</From>
+          <To>FORMATNAME</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="10" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.NameSearch" position="add" />
+          <Field name="TPKCNAIDTY" unique="yes" displayInList="yes">Name Key</Field>
+          <Field name="FORMATNAME"              displayInList="yes">Name</Field>
+         <!-- <Field name="CNAIADD.FORMATADDR" displayInList="yes">Address</Field> -->
+        </Step>
+
+        <Step sequence="20" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKCNAIDTY</From>
+          <To>${Objective.Field.Pathway.NameKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		
+		<!-- stevet - removed from demo
+        <Step sequence="21" className="Objective.Applink.Step.MapVarToField">
+          <From>CNAIADD.FORMATADDR</From>
+          <To>${Objective.Field.Pathway.FormattedNARAddress}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+		-->
+        <Step sequence="23" className="Objective.Applink.Step.MapVarToField">
+          <From>FORMATNAME</From>
+          <To>${Objective.Field.Pathway.FormattedNARName}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+
+      </Action>
+    </FieldEvent>
+
+    <!-- NDW add formatted name to NAR lookups -  pathway Files-->
+
+    <FieldEvent callingField="${Objective.Field.Pathway.NameKey},${Objective.Field.Pathway.FormattedNARName},${Objective.Field.Pathway.PathwayNARRoleType}"
+            navigatorEvent="ObjMVFieldEditClicked" applicableTypes="duotA45">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.NameKey}</From>
+          <To>TPKCNAIDTY</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+
+        <Step sequence="3" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.FormattedNARName}</From>
+          <To>FORMATNAME</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="5" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.PathwayNARRoleType}</From>
+          <To>NAMEROLETYPE</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+
+        <Step sequence="10" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.NameSearch" position="add" />
+          <Field name="TPKCNAIDTY" unique="yes" displayInList="yes">Name Key</Field>
+          <Field name="NAMEROLETYPE"            displayInList="yes">Name Role Type</Field>
+          <Field name="FORMATNAME"              displayInList="yes">Name</Field>
+        </Step>
+
+        <Step sequence="20" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKCNAIDTY</From>
+          <To>${Objective.Field.Pathway.NameKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+
+        <Step sequence="23" className="Objective.Applink.Step.MapVarToField">
+          <From>FORMATNAME</From>
+          <To>${Objective.Field.Pathway.FormattedNARName}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="25" className="Objective.Applink.Step.MapVarToField">
+          <From>NAMEROLETYPE</From>
+          <To>${Objective.Field.Pathway.PathwayNARRoleType}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+      </Action>
+    </FieldEvent>
+
+
+
+    <FieldEvent callingField="${Objective.Field.Pathway.ReqKey},${Objective.Field.Pathway.ReqDescription}"
+          navigatorEvent="ObjMVFieldEditClicked">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.ReqKey}</From>
+          <To>TPKACRREQU</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="2" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.ReqNum}</From>
+          <To>REQUNUM</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+
+        <Step sequence="3" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.ReqSearch" position="add" />
+          <Field name="TPKACRREQU" unique="yes" displayInList="yes">Request Key</Field>
+          <Field name="REQUNUM" unique="yes" displayInList="yes">Pathway Request Number</Field>
+          <!-- <Field name="PTWREQNUM" unique="yes" displayInList="yes">Pathway Customer Request Number</Field>-->
+        </Step>
+        <Step sequence="4" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKACRREQU</From>
+          <To>${Objective.Field.Pathway.ReqKey}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="5" className="Objective.Applink.Step.MapVarToField">
+          <From>REQUNUM</From>
+          <To>${Objective.Field.Pathway.ReqNum}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+      </Action>
+    </FieldEvent>
+
+    <!-- NDW added animal lookup -->
+    <FieldEvent callingField="${Objective.Field.Pathway.AnimalId}"
+          navigatorEvent="ObjMVFieldEditClicked">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.AnimalId}</From>
+          <To>TPKLANANML</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="3" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.AnimalSearch" position="add" />
+          <Field name="TPKLANANML" unique="yes" displayInList="yes">Animal Key</Field>
+        </Step>
+        <Step sequence="4" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKLANANML</From>
+          <To>${Objective.Field.Pathway.AnimalId}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+      </Action>
+    </FieldEvent>
+
+    <!-- NDW added street suburb lookup -->
+    <FieldEvent callingField="${Objective.Field.Pathway.StreetSuburb}"
+          navigatorEvent="ObjMVFieldEditClicked">
+      <Action name="default">
+        <Step sequence="1" className="Objective.Applink.Step.MapFieldToVar">
+          <From>${Objective.Field.Pathway.StreetSuburb}</From>
+          <To>TPKLPASTSB</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+        <Step sequence="3" className="Objective.Applink.Step.MultiLinkManager">
+          <Plugin reference="Pathway.StreetSuburbSearch" position="add" />
+          <Field name="TPKLPASTSB" unique="yes" displayInList="yes">Street Suburb Key</Field>
+        </Step>
+        <Step sequence="4" className="Objective.Applink.Step.MapVarToField">
+          <From>TPKLPASTSB</From>
+          <To>${Objective.Field.Pathway.StreetSuburb}</To>
+          <IsMultivalue>yes</IsMultivalue>
+        </Step>
+      </Action>
+    </FieldEvent>
+
+
+
+  </Lookup>
+
+  <!-- Configuration used by the Pathway Connector provided for GENCON -->
+  <Pathway>
+    <!-- Note, this is the default call. when UpdateFolder is called and no requestType was matched.
+	    If you would like to use this default, make sure you have defined the request in your filling rules.
+	<Function name="UpdateFolder" default="true" requestType="BUCKET" useNominalCred="true">
+      <Map pth='DocumentTitle' obj='Document Title'/>
+    </Function>
+	-->
+
+    <Function name="UpdateFolder" entity="LAP/LAPAPPL" requestType="APPLICATION" useNominalCred="true">
+      <!-- parentage fields - module code (3 letter TPK code), FolderName as configured in GENCON -->
+      <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/>
+      <Map pth='FolderName' obj='ParentageCode'/>
+
+      <Map pth='FolderFields[Name="Application Reference Number"]/Value' obj='FormattedApplicationNumber'/>
+
+      <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ApplicationNumber' regex='[^/]+$'/>
+      <Map pth='FolderFields[Name="Application Description"]/Value' obj='ApplicationDescription'/>
+
+      <!-- Note, to keep all CreateYear and CreateMonth fields consistent, we have to use the DocumentFields for 
+     folder containers as well. Luckily for us they are populated. Note, we cannot use the the same regex on 
+     the lodgement dates - they are specified as yyyymmdd, whereas System Creation Date is always specified as dd-MON-YYYY. ([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])
+-->
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateYear' regex='\d{4}$'/>
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateMonth' regex='[a-zA-Z]{3}'/>
+
+      <!-- when isDateType='true' -->
+      <Map pth='FolderFields[Name="Application Decision Date"]/Value' obj='DecisionDate'   isDateType='true' regex='^([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])$'/>
+
+      <Map pth='FolderFields[Name="Application Lodgement Date"]/Value' obj='LodgementDate' isDateType='true' regex='^([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])$'/>
+
+
+      <Map pth='FolderFormattedNames/FormattedNameKey' obj='NameNumber'/>
+      <Map pth='FolderFormattedNames/FormattedNameRoleTypeDescription' obj='NameRoleType'/>
+      <Map pth='FolderFormattedNames/FormattedName' obj='NameFormattedName'/>
+      <!-- Note, more NAR attributes available: -->
+
+
+      <Map pth='FolderFields[Name="Application Property Key"]/Value' obj='PropertyNumber'/>
+      <Map pth='FolderFields[Name="Application Location Description"]/Value' obj='PropertyAddress'/>
+    </Function>
+
+    <Function name="UpdateFolder" entity="LLC/LAPAPPL" requestType="LICENSE" useNominalCred="true">
+      <!-- parentage fields - module code (3 letter TPK code), FolderName as configured in GENCON -->
+      <Map pth='FolderName' obj='ParentageCode'/>
+      <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/>
+
+      <!-- the licence key fields -->
+      <Map pth='FolderFields[Name="Licence Reference Number"]/Value' obj='FormattedLicenseNumber'/>
+      <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='LicenseNumber' regex='[^/]+$'/>
+      <Map pth='FolderFields[Name="Licence Description"]/Value' obj='LicenseDescription'/>
+
+      <!-- Note, to keep all CreateYear and CreateMonth fields consistent, we have to use the DocumentFields for 
+     folder containers as well. Luckily for us they are populated. Note, we cannot use the the same regex on 
+     the lodgement dates - they are specified as yyyymmdd ("20100819"), whereas System Creation Date is always specified as dd-MON-YYYY. 
+-->
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateYear' regex='\d{4}$'/>
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateMonth' regex='[a-zA-Z]{3}'/>
+
+      <!-- when isDateType='true' -->
+      <Map pth='FolderFields[Name="Application Decision Date"]/Value' obj='DecisionDate'   isDateType='true' regex='^([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])([0-9][0-9])$'/>
+
+      <Map pth='FolderFields[Name="Application Lodgement Date"]/Value' obj='LodgementDate' isDateType='true' regex='^([0-9][0-9][0-9][0-9])([0-9][0-9])([0-9][0-9])$'/>
+
+
+      <Map pth='FolderFormattedNames/FormattedNameKey' obj='NameNumber'/>
+      <Map pth='FolderFormattedNames/FormattedNameRoleTypeDescription' obj='NameRoleType'/>
+      <Map pth='FolderFormattedNames/FormattedName' obj='NameFormattedName'/>
+      <!-- Note, more NAR attributes available: -->
+
+      <Map pth='FolderFields[Name="Licence Property Key"]/Value' obj='PropertyNumber'/>
+      <Map pth='FolderFields[Name="Licence Location Description"]/Value' obj='PropertyAddress'/>
+	  
+	   <!-- Stevet add extra fields for filing information -->
+<!--	  <Map pth='DocumentFields[Name="Document Type"]/Value' obj='documentType'/>
+	  <Map pth='FolderFields[Name="Licence Class"]/Value' obj='documentLicenceClass'/>
+	  <Map pth='FolderFields[Name="Licence Type"]/Value' obj='documentLicenceType'/>-->
+
+    </Function>
+
+    <!-- 
+	   GENCON METADATA for creating property folder:
+        [0]	FieldName="Property Formatted Address", FieldValue="8 Keren Boulevard, OBJECTIVE TOWN NSW 2000"	Pathway.Connector.EdmsMetaDataField
+		[1]	FieldName="Property Status", FieldValue="Current"	Pathway.Connector.EdmsMetaDataField
+		[2]	FieldName="Property Street/Suburb Key", FieldValue="LPA/LPASTSB/13218"	Pathway.Connector.EdmsMetaDataField
+		[3]	FieldName="Property Key", FieldValue="170557"	Pathway.Connector.EdmsMetaDataField
+    -->
+
+    <Function name="UpdateFolder" entity="LPA/LPAPROP" requestType="PROPFOLDER" useNominalCred="true">
+		<!-- parentage fields - module code (3 letter TPK code), FolderName as configured in GENCON -->
+		<Map pth='FolderName' obj='ParentageCode'/>
+		<Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/>
+
+		<Map pth='FolderFields[Name="Property Key"]/Value' obj='PropertyNumber'/>
+		<Map pth='FolderFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+		<Map pth='FolderFields[Name="Property Street/Suburb Key"]/Value' obj='StreetSuburbKey' regex='[^/]+$'/>
+		
+		<!-- Suburb folder name-->
+		<Map pth='FolderFields[Name="Property Street/Suburb Street"]/Value' obj='StreetName'/>
+		<Map pth='FolderFields[Name="Property Street/Suburb Street Qualifier"]/Value' obj='StreetNameQualifier'/>
+		<Map pth='FolderFields[Name="Property Street/Suburb Suburb"]/Value' obj='SuburbName'/>
+		<Map pth='FolderFields[Name="Property Street/Suburb State"]/Value' obj='StateName'/>
+		<Map pth='FolderFields[Name="Property Street/Suburb Postcode"]/Value' obj='PostcodeName'/>
+    </Function>
+
+	<Function name="UpdateFolder" entity="ACR/ACRREQU" requestType="REQUEST" useNominalCred="true">
+		<!-- parentage fields - module code (3 letter TPK code), FolderName as configured in GENCON -->
+		<!-- <Map pth='FolderName' obj='ParentageCode'/> -->
+		<!-- <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/> -->
+		<!--<Map pth='FolderFields[Name="Request Primary Key"]/Value' obj='name'/> -->
+		<Map pth='FolderName' obj='ParentageCode'/>
+		<Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/>
+		<!-- <Map pth='FolderFields[Name="Request Primary Key"]/Value' obj='RequestKey'/> -->
+		<Map pth='BusinessObjectPrimaryKeyFieldValue' obj='RequestKey'/>
+
+
+    </Function>
+
+    <!-- EXAMPLE 
+	
+	GENCON Metadata when creating Street:
+      FolderFields array:
+	  	[0]	FieldName="Street/Suburb Formatted Name", FieldValue="Jjj Arcade, ADELAIDE SA 5000"	Pathway.Connector.EdmsMetaDataField
+	    [1]	FieldName="Street/Suburb Status", FieldValue="Current"	Pathway.Connector.EdmsMetaDataField
+		[2]	FieldName="Street/Suburb Street", FieldValue="Jjj"	Pathway.Connector.EdmsMetaDataField
+		[3]	FieldName="Street/Suburb Street Qualifier", FieldValue="Arcade"	Pathway.Connector.EdmsMetaDataField
+		[4]	FieldName="Street/Suburb Street Qualifier Abbreviation", FieldValue="Acd"	Pathway.Connector.EdmsMetaDataField
+		[5]	FieldName="Street/Suburb Suburb", FieldValue="ADELAIDE"	Pathway.Connector.EdmsMetaDataField
+		[6]	FieldName="Street/Suburb State", FieldValue="SA"	Pathway.Connector.EdmsMetaDataField
+		[7]	FieldName="Street/Suburb Postcode", FieldValue="5000"	Pathway.Connector.EdmsMetaDataField
+		
+		
+	  FolderPrimaryKeyFieldName	    "Street/Suburb Primary Key"	string
+	  FolderPrimaryKeyFieldValue	"LPA/LPASTSB/13221"	string
+
+	-->
+
+    <Function name="UpdateFolder" entity="LPA/LPASTSB" requestType="STRSBFOLDER" useNominalCred="true">
+      <!-- parentage fields - module code (3 letter TPK code), FolderName as configured in GENCON -->
+      <Map pth='FolderName' obj='ParentageCode'/>
+      <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleCode' regex='^\w*'/>
+
+      <!-- street folder name-->
+      <Map pth='FolderFields[Name="Street/Suburb Street"]/Value' obj='StreetName'/>
+      <Map pth='FolderFields[Name="Street/Suburb Street Qualifier"]/Value' obj='StreetQualifier'/>
+
+      <!-- Suburb folder name-->
+      <Map pth='FolderFields[Name="Street/Suburb Suburb"]/Value' obj='SuburbName'/>
+      <Map pth='FolderFields[Name="Street/Suburb State"]/Value' obj='StateName'/>
+      <Map pth='FolderFields[Name="Street/Suburb Postcode"]/Value' obj='PostcodeName'/>
+
+      <Map pth='FolderPrimaryKeyFieldValue' obj='StreetSuburbKey' regex='[^/]+$'/>
+
+    </Function>
+
+    <Function name="FindDocuments" maxResults="1000" useNominalCred="true">
+      <!-- the pth= attribute is not used by FindDocuments but it is here for documentation purposes -->
+      <Map pth='businessObjectPrimaryKey' obj='entitytype' regex="^[^/]+/[^/]+"/>
+      <Map pth='businessObjectPrimaryKey' obj='entitykey' regex="[^/]+$"/>
+    </Function>
+
+    <Function name="UpdateDocument" keyType="OBJ" requestType="OBJNEWSTATUS" useNominalCred="true">
+      <!-- the pth= attribute is not used by UpdateDocument but it is here for documentation purposes -->
+      <Map pth='documentStatus' obj='DocumentStatus'/>
+    </Function>
+
+    <Function name="UpdateDocument" keyType="PTH" requestType="PTHNEWSTATUS" useNominalCred="true">
+      <!-- the pth= attribute is not used by UpdateDocument but it is here for documentation purposes -->
+      <Map pth='documentStatus' obj='DocumentStatus'/>
+    </Function>
+
+    <Function name="PutDocument" keyType="OBJ" requestType="OBJDOCID" useNominalCred="true"/>
+
+    <Function name="PutDocument" keyType="PTH" requestType="PTHDOCID" useNominalCred="true"/>
+
+    <Function name="GetDocument" keyType="OBJ" requestType="OBJDOCID" useNominalCred="true"
+			basePath="c:/temp/"/>
+
+    <Function name="GetDocument" keyType="PTH" requestType="PTHDOCID" useNominalCred="true"
+			basePath="c:/temp/"/>
+
+    <Function name="RegisterDocument" entity="LPA/LPAPROP" requestType="DOCUMENT" useNominalCred="true">
+      <Map pth='DocumentTitle' obj='Title'/>
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateYear' regex='\d{4}$'/>
+      <Map pth='DocumentFields[Name="System Creation Date"]/Value' obj='CreateMonth' regex='[a-zA-Z]{3}'/>
+
+      <Map pth='DocumentPrimaryKeyFieldValue' obj='DocumentNumber'/>
+
+      <!-- parentage for this configuraion is driven by combinations of the following Pathway supplied 
+           fields.
+      				- module code (3 letter TPK code), 
+      				- FolderName as configured in GENCON
+      -->
+      <Map pth='FolderName' obj='ParentageCode'/>
+      <Map pth='DocumentFields[Name="System Module"]/Value' obj='ModuleCode'/>
+
+
+      <!-- standard NAR and property fields -->
+      <Map pth='DocumentFields[Name="Property Primary Key"]/Value' obj='PropertyNumber' regex='[^/]+$' />
+      <Map pth='DocumentFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+      <Map pth='DocumentFormattedNames/FormattedNameKey' obj='NameNumber'/>
+      <Map pth='DocumentFormattedNames/FormattedName' obj='NameFormattedName'/>
+	  	
+
+	<!--	<Map pth='DocumentFields[Name="Licence Primary Key"]/Value' obj='LicenceKey' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Application Primary Key"]/Value' obj='ApplicationKey' regex='[^/]+$' /> -->
+		
+      <!-- optional document addressee -->
+      <Map pth='DocumentFields[Name="Document Addressee"]/Value' obj='DocumentAddressee' />
+	  
+		<Map pth='DocumentFields[Name="Property Street/Suburb Street"]/Value' obj='StreetName'/>
+		<Map pth='DocumentFields[Name="Property Street/Suburb Street Qualifier"]/Value' obj='StreetType'/>
+		<Map pth='DocumentFields[Name="Property Street/Suburb Suburb"]/Value' obj='Suburb'/>
+		<Map pth='DocumentFields[Name="Property Start House Number"]/Value' obj='HouseNumber'/>
+		<Map pth='DocumentFields[Name="Property Start Unit Number"]/Value' obj='UnitNumber'/>
+		<Map pth='DocumentFields[Name="Document Type Description"]/Value' obj='DocType'/>
+
+    </Function>
+
+	<!-- all other documents go to the standard Document call -->
+    <Function name="RegisterDocument" default="true" requestType="BASICDOCUMENT" useNominalCred="true">
+        <Map pth='DocumentTitle' obj='Title'/>
+        <Map pth='DocumentPrimaryKeyFieldValue' obj='DocumentNumber'/>
+        <Map pth='FolderName' obj='ParentageCode'/>
+        <Map pth='DocumentFields[Name="System Module"]/Value' obj='ModuleCode'/>
+        <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleNumber' />
+<!--		<Map pth='DocumentFields[Name="Property Primary Key"]/Value' obj='PropertyKey' regex='[^/]+$' /> -->
+		<Map pth='DocumentFields[Name="Licence Primary Key"]/Value' obj='LicenseId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Application Primary Key"]/Value' obj='ApplicationId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+		<Map pth='DocumentFormattedNames/FormattedNameKey' obj='NameNumber'/>
+		<Map pth='DocumentFormattedNames/FormattedName' obj='NameFormattedName'/>
+		<Map pth='DocumentFields[Name="Request Primary Key"]/Value' obj='RequestKey' regex='[^/]+$'/>
+    </Function>
+
+	
+	    <Function name="RegisterDocument" entity="LLC/LAPAPPL" requestType="LICENSEDOCUMENT" useNominalCred="true">
+        <Map pth='DocumentTitle' obj='Title'/>
+        <Map pth='DocumentPrimaryKeyFieldValue' obj='DocumentNumber'/>
+        <Map pth='FolderName' obj='ParentageCode'/>
+        <Map pth='DocumentFields[Name="System Module"]/Value' obj='ModuleCode'/>
+        <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleNumber' />
+<!--		<Map pth='DocumentFields[Name="Property Primary Key"]/Value' obj='PropertyKey' regex='[^/]+$' /> -->
+		<Map pth='DocumentFields[Name="Licence Primary Key"]/Value' obj='LicenseId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Application Primary Key"]/Value' obj='ApplicationId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+		<Map pth='DocumentFormattedNames/FormattedNameKey' obj='NameNumber'/>
+		<Map pth='DocumentFormattedNames/FormattedName' obj='NameFormattedName'/>
+		<Map pth='DocumentFields[Name="Request Primary Key"]/Value' obj='RequestKey' regex='[^/]+$'/>
+    </Function>
+	
+		    <Function name="RegisterDocument" entity="LAP/LAPAPPL" requestType="APPLICATIONDOCUMENT" useNominalCred="true">
+        <Map pth='DocumentTitle' obj='Title'/>
+        <Map pth='DocumentPrimaryKeyFieldValue' obj='DocumentNumber'/>
+        <Map pth='FolderName' obj='ParentageCode'/>
+        <Map pth='DocumentFields[Name="System Module"]/Value' obj='ModuleCode'/>
+        <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleNumber' />
+<!--		<Map pth='DocumentFields[Name="Property Primary Key"]/Value' obj='PropertyKey' regex='[^/]+$' /> -->
+		<Map pth='DocumentFields[Name="Licence Primary Key"]/Value' obj='LicenseId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Application Primary Key"]/Value' obj='ApplicationId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+		<Map pth='DocumentFormattedNames/FormattedNameKey' obj='NameNumber'/>
+		<Map pth='DocumentFormattedNames/FormattedName' obj='NameFormattedName'/>
+		<Map pth='DocumentFields[Name="Request Primary Key"]/Value' obj='RequestKey' regex='[^/]+$'/>
+    </Function>
+	
+	 <Function name="RegisterDocument" entity="ACR/ACRREQU" requestType="REQUESTDOCUMENT" useNominalCred="true">
+        <Map pth='DocumentTitle' obj='Title'/>
+        <Map pth='DocumentPrimaryKeyFieldValue' obj='DocumentNumber'/>
+        <Map pth='FolderName' obj='ParentageCode'/>
+        <Map pth='DocumentFields[Name="System Module"]/Value' obj='ModuleCode'/>
+        <Map pth='BusinessObjectPrimaryKeyFieldValue' obj='ModuleNumber' />
+<!--		<Map pth='DocumentFields[Name="Property Primary Key"]/Value' obj='PropertyKey' regex='[^/]+$' /> -->
+		<Map pth='DocumentFields[Name="Licence Primary Key"]/Value' obj='LicenseId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Application Primary Key"]/Value' obj='ApplicationId' regex='[^/]+$' />
+		<Map pth='DocumentFields[Name="Property Formatted Address"]/Value' obj='PropertyAddress'/>
+		<Map pth='DocumentFormattedNames/FormattedNameKey' obj='NameNumber'/>
+		<Map pth='DocumentFormattedNames/FormattedName' obj='NameFormattedName'/>
+		<Map pth='DocumentFields[Name="Request Primary Key"]/Value' obj='RequestKey' regex='[^/]+$'/>
+    </Function>
+	
+	
+  </Pathway>
+
+  	<IPS>
+
+		<Function name="SearchForDocuments" maxResults="1000" useNominalCred="true">
+			<Map pth='DocumentType' obj='entitytype' regex="^[^/]+/[^/]+"/>
+
+
+
+
+
+
+			<Map pth='DocumentKey' obj='entitykey' regex="[^/]+$"/>
+
+
+
+
+
+		</Function>
+
+		<Function name="SearchForContainer" maxResults="1000" useNominalCred="true">
+			<Map pth='ContainerType' obj='entitytype' regex="^[^/]+/[^/]+"/>
+
+
+
+
+
+
+			<Map pth='ContainerName' obj='entitykey' regex="[^/]+$"/>
+
+
+
+
+
+		</Function>
+		
+
+		<Function name="RegisterDocument" default="true" requestType="IPSDOCUMENT" useNominalCred="true">
+			<Map pth='DocumentTitle' obj='Title' regex="[^/]+$"/>
+
+
+
+
+
+			<Map pth='DocumentID' obj='AttachmentNumber' regex="[^/]+$" />
+			<Map pth='ContainerID' obj='AttachmentContainer' regex="[^/]+$" />
+
+
+
+
+
+		</Function>
+
+
+	</IPS>
+</Applink>
